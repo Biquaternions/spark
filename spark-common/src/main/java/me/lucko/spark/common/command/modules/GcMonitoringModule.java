@@ -29,6 +29,7 @@ import me.lucko.spark.common.monitor.memory.GarbageCollectionMonitor;
 import me.lucko.spark.common.monitor.memory.GarbageCollectorStatistics;
 import me.lucko.spark.common.util.FormatUtil;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 
 import java.lang.management.MemoryUsage;
 import java.text.DecimalFormat;
@@ -49,6 +50,8 @@ import static net.kyori.adventure.text.format.TextDecoration.BOLD;
 
 public class GcMonitoringModule implements CommandModule {
     private static final DecimalFormat DF = new DecimalFormat("#.##");
+
+    private static final TextColor COLOR_TITLE = TextColor.color(255, 145, 0);
 
     /** The gc monitoring instance currently running, if any */
     private ReportingGcMonitor activeGcMonitor = null;
@@ -73,7 +76,7 @@ public class GcMonitoringModule implements CommandModule {
                     report.add(text()
                             .append(text(">", DARK_GRAY, BOLD))
                             .append(space())
-                            .append(text("Garbage Collector statistics", GOLD))
+                            .append(text("Garbage Collector statistics", COLOR_TITLE))
                             .build()
                     );
 
@@ -112,7 +115,7 @@ public class GcMonitoringModule implements CommandModule {
                         );
                         report.add(text()
                                 .content("      ")
-                                .append(text(DF.format(averageCollectionTime), GOLD))
+                                .append(text(DF.format(averageCollectionTime), COLOR_TITLE))
                                 .append(text(" ms avg", GRAY))
                                 .append(text(", ", DARK_GRAY))
                                 .append(text(collectionCount, WHITE))
@@ -177,7 +180,7 @@ public class GcMonitoringModule implements CommandModule {
                                 .append(text(gcType + " "))
                                 .append(text("GC", RED))
                                 .append(text(" lasting "))
-                                .append(text(DF.format(data.getGcInfo().getDuration()), GOLD))
+                                .append(text(DF.format(data.getGcInfo().getDuration()), COLOR_TITLE))
                                 .append(text(" ms." + gcCause))
                                 .build()
                 ));
@@ -199,7 +202,7 @@ public class GcMonitoringModule implements CommandModule {
                     if (diff > 0) {
                         report.add(text()
                                 .content("  ")
-                                .append(text(FormatUtil.formatBytes(diff), GOLD))
+                                .append(text(FormatUtil.formatBytes(diff), COLOR_TITLE))
                                 .append(text(" freed from ", DARK_GRAY))
                                 .append(text(type, GRAY))
                                 .build()
@@ -218,7 +221,7 @@ public class GcMonitoringModule implements CommandModule {
                     } else {
                         report.add(text()
                                 .content("  ")
-                                .append(text(FormatUtil.formatBytes(-diff), GOLD))
+                                .append(text(FormatUtil.formatBytes(-diff), COLOR_TITLE))
                                 .append(text(" moved to ", DARK_GRAY))
                                 .append(text(type, GRAY))
                                 .build()

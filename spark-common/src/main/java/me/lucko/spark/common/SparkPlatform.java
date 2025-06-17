@@ -62,6 +62,7 @@ import me.lucko.spark.common.util.log.SparkStaticLogger;
 import me.lucko.spark.common.ws.TrustedKeyStore;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.format.TextColor;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -98,6 +99,8 @@ public class SparkPlatform {
 
     /** The date time formatter instance used by the platform */
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH.mm.ss");
+
+    private static final TextColor COLOR_TITLE = TextColor.color(255, 145, 0);
 
     private final SparkPlugin plugin;
     private final TemporaryFiles temporaryFiles;
@@ -387,7 +390,8 @@ public class SparkPlatform {
         // schedule a task to detect timeouts
         this.plugin.executeAsync(() -> {
             timeoutThread.set(Thread.currentThread());
-            int warningIntervalSeconds = 5;
+            int warningIntervalSeconds = 10; // Aurora - Some reports take a bit more time
+            int warningIntervalSecondsIterable = 10; // Aurora
 
             try {
                 if (completed.get()) {
@@ -396,7 +400,7 @@ public class SparkPlatform {
                 
                 for (int i = 1; i <= 3; i++) {
                     try {
-                        Thread.sleep(warningIntervalSeconds * 1000);
+                        Thread.sleep(warningIntervalSecondsIterable * 1000); // Use iterable
                     } catch (InterruptedException e) {
                         // ignore
                     }
@@ -404,11 +408,12 @@ public class SparkPlatform {
                     if (completed.get()) {
                         return;
                     }
+                    warningIntervalSecondsIterable = 5;
 
                     Thread executor = executorThread.get();
                     if (executor == null) {
                         getPlugin().log(Level.WARNING, "A command execution has not completed after " +
-                                (i * warningIntervalSeconds) + " seconds but there is no executor present. Perhaps the executor shutdown?");
+                                (warningIntervalSeconds + ((i - 1) * warningIntervalSecondsIterable)) + " seconds but there is no executor present. Perhaps the executor shutdown?");
                         getPlugin().log(Level.WARNING, "If the command subsequently completes without any errors, this warning should be ignored. :)");
 
                     } else {
@@ -417,7 +422,7 @@ public class SparkPlatform {
                                 .collect(Collectors.joining("\n"));
 
                         getPlugin().log(Level.WARNING, "A command execution has not completed after " +
-                                (i * warningIntervalSeconds) + " seconds, it *might* be stuck. Trace: \n" + stackTrace);
+                                (warningIntervalSeconds + ((i - 1) * warningIntervalSecondsIterable)) + " seconds, it *might* be stuck. Trace: \n" + stackTrace);
                         getPlugin().log(Level.WARNING, "If the command subsequently completes without any errors, this warning should be ignored. :)");
                     }
                 }
@@ -526,7 +531,7 @@ public class SparkPlatform {
                     String subCommandUsage = usage + " " + subCommand;
 
                     sender.reply(text()
-                            .append(text(">", GOLD, BOLD))
+                            .append(text(">", COLOR_TITLE, BOLD))
                             .append(space())
                             .append(text().content(subCommandUsage).color(GRAY).clickEvent(ClickEvent.suggestCommand(subCommandUsage)).build())
                             .build()
@@ -541,7 +546,7 @@ public class SparkPlatform {
                 });
             } else {
                 sender.reply(text()
-                        .append(text(">", GOLD, BOLD))
+                        .append(text(">", COLOR_TITLE, BOLD))
                         .append(space())
                         .append(text().content(usage).color(GRAY).clickEvent(ClickEvent.suggestCommand(usage)).build())
                         .build()

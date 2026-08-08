@@ -40,11 +40,12 @@ import static net.kyori.adventure.text.format.TextDecoration.BOLD;
 
 public class CommandResponseHandler {
 
+    private static final net.kyori.adventure.text.format.TextColor PREFIX_COLOR = net.kyori.adventure.text.format.TextColor.color(255, 200, 0);
     /** The prefix used in all messages "&8[&e&l⚡&8] &7" */
     private static final TextComponent PREFIX = text()
             .color(GRAY)
             .append(text("[", DARK_GRAY))
-            .append(text("⚡", YELLOW, BOLD))
+            .append(text("\uD83D\uDC21", PREFIX_COLOR, BOLD))
             .append(text("]", DARK_GRAY))
             .append(text(" "))
             .build();

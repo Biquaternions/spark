@@ -429,9 +429,9 @@ public class SamplerModule implements CommandModule {
                 String url = platform.getViewerUrl() + key;
 
                 resp.broadcastPrefixed(text("Profiler stopped & upload complete!", COLOR_TITLE));
-                resp.broadcast(text()
+                resp.broadcastPrefixed(text()
                         .content(url)
-                        .color(GRAY)
+                        .color(WHITE)
                         .clickEvent(ClickEvent.openUrl(url))
                         .build()
                 );

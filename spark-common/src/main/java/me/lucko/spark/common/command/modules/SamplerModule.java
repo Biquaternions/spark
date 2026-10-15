@@ -73,6 +73,7 @@ import static net.kyori.adventure.text.format.NamedTextColor.RED;
 import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
 
 public class SamplerModule implements CommandModule {
+    private static final net.kyori.adventure.text.format.TextColor COLOR_TITLE = net.kyori.adventure.text.format.TextColor.color(255, 145, 0);
 
     @Override
     public void registerCommands(Consumer<Command> consumer) {
@@ -162,7 +163,7 @@ public class SamplerModule implements CommandModule {
         if (previousSampler != null) {
             if (previousSampler.isRunningInBackground()) {
                 // there is a background profiler running - stop that first
-                resp.replyPrefixed(text("Stopping the background profiler before starting... please wait"));
+                resp.replyPrefixed(text("Stopping the background profiler before starting..."));
                 previousSampler.stop(true);
                 platform.getSamplerContainer().unsetActiveSampler(previousSampler);
             } else {
@@ -265,7 +266,7 @@ public class SamplerModule implements CommandModule {
         platform.getSamplerContainer().setActiveSampler(sampler);
 
         resp.broadcastPrefixed(text()
-                .append(text((mode == SamplerMode.ALLOCATION ? "Allocation Profiler" : mode == SamplerMode.LOCK ? "Lock Profiler" : "Profiler") + " is now running!", GOLD))
+                .append(text((mode == SamplerMode.ALLOCATION ? "Allocation Profiler" : mode == SamplerMode.LOCK ? "Lock Profiler" : "Profiler") + " is now running!", COLOR_TITLE))
                 .append(space())
                 .append(text("(" + (sampler instanceof AsyncSampler ? "async" : "built-in java") + ")", DARK_GRAY))
                 .build()
@@ -312,7 +313,7 @@ public class SamplerModule implements CommandModule {
             resp.replyPrefixed(text("To start a new one, run:"));
             resp.replyPrefixed(cmdPrompt("/" + platform.getPlugin().getCommandName() + " profiler start"));
         } else {
-            resp.replyPrefixed(text("Profiler is already running!", GOLD));
+            resp.replyPrefixed(text("Profiler is already running!", COLOR_TITLE));
 
             long runningTime = (TimeUtil.monotonicCurrentTimeMillis() - sampler.getStartTime()) / 1000L;
 
@@ -392,7 +393,7 @@ public class SamplerModule implements CommandModule {
             resp.replyPrefixed(text("There isn't an active profiler running."));
         } else {
             platform.getSamplerContainer().stopActiveSampler(true);
-            resp.broadcastPrefixed(text("Profiler has been cancelled.", GOLD));
+            resp.broadcastPrefixed(text("Profiler has been cancelled.", COLOR_TITLE));
         }
     }
 
@@ -437,10 +438,10 @@ public class SamplerModule implements CommandModule {
                 String key = platform.getBytebinClient().postContent(output, MediaTypes.SPARK_SAMPLER_MEDIA_TYPE).key();
                 String url = platform.getViewerUrl() + key;
 
-                resp.broadcastPrefixed(text("Profiler stopped & upload complete!", GOLD));
-                resp.broadcast(text()
+                resp.broadcastPrefixed(text("Profiler stopped & upload complete!", COLOR_TITLE));
+                resp.broadcastPrefixed(text()
                         .content(url)
-                        .color(GRAY)
+                        .color(WHITE)
                         .clickEvent(ClickEvent.openUrl(url))
                         .build()
                 );
@@ -458,7 +459,7 @@ public class SamplerModule implements CommandModule {
             try {
                 Files.write(file, output.toByteArray());
 
-                resp.broadcastPrefixed(text("Profiler stopped & save complete!", GOLD));
+                resp.broadcastPrefixed(text("Profiler stopped & save complete!", COLOR_TITLE));
                 resp.broadcastPrefixed(text("Data has been written to: " + file));
                 resp.broadcastPrefixed(text("You can view the profile file using the web app @ " + platform.getViewerUrl(), GRAY));
 
@@ -481,7 +482,7 @@ public class SamplerModule implements CommandModule {
             String key = platform.getBytebinClient().postContent(data, MediaTypes.SPARK_SAMPLER_MEDIA_TYPE, "live").key();
             String url = platform.getViewerUrl() + key;
 
-            resp.broadcastPrefixed(text("Profiler live viewer:", GOLD));
+            resp.broadcastPrefixed(text("Profiler live viewer:", COLOR_TITLE));
             resp.broadcast(text()
                     .content(url)
                     .color(GRAY)

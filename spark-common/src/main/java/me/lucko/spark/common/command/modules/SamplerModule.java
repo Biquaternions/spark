@@ -88,6 +88,7 @@ public class SamplerModule implements CommandModule {
                 .argumentUsage("start", "only-ticks-over", "tick length millis")
                 .argumentUsage("start", "interval", "interval millis")
                 .argumentUsage("start", "alloc", null)
+                .argumentUsage("start", "lock", null)
                 .argumentUsage("stop", "", null)
                 .argumentUsage("cancel", "", null)
                 .executor(this::profiler)
@@ -102,7 +103,7 @@ public class SamplerModule implements CommandModule {
                         }
                         if (subCommand.equals("start")) {
                             opts = new ArrayList<>(Arrays.asList("--timeout", "--regex", "--combine-all",
-                                    "--not-combined", "--interval", "--only-ticks-over", "--force-java-sampler", "--alloc", "--alloc-live-only"));
+                                    "--not-combined", "--interval", "--only-ticks-over", "--force-java-sampler", "--alloc", "--alloc-live-only", "--lock"));
                             opts.removeAll(arguments);
                             opts.add("--thread"); // allowed multiple times
                         }
@@ -184,7 +185,14 @@ public class SamplerModule implements CommandModule {
                     "Consider setting a timeout value over 30 seconds."));
         }
 
-        SamplerMode mode = arguments.boolFlag("alloc") ? SamplerMode.ALLOCATION : SamplerMode.EXECUTION;
+        boolean alloc = arguments.boolFlag("alloc");
+        boolean lock = arguments.boolFlag("lock");
+        if (alloc && lock) {
+            resp.replyPrefixed(text("The --alloc and --lock flags cannot be used together. Please choose one profiling mode.", RED));
+            return;
+        }
+
+        SamplerMode mode = alloc ? SamplerMode.ALLOCATION : lock ? SamplerMode.LOCK : SamplerMode.EXECUTION;
         boolean allocLiveOnly = arguments.boolFlag("alloc-live-only");
 
         double interval = arguments.doubleFlag("interval");
@@ -258,7 +266,7 @@ public class SamplerModule implements CommandModule {
         platform.getSamplerContainer().setActiveSampler(sampler);
 
         resp.broadcastPrefixed(text()
-                .append(text((mode == SamplerMode.ALLOCATION ? "Allocation Profiler" : "Profiler") + " is now running!", COLOR_TITLE))
+                .append(text((mode == SamplerMode.ALLOCATION ? "Allocation Profiler" : mode == SamplerMode.LOCK ? "Lock Profiler" : "Profiler") + " is now running!", COLOR_TITLE))
                 .append(space())
                 .append(text("(" + (sampler instanceof AsyncSampler ? "async" : "built-in java") + ")", DARK_GRAY))
                 .build()

@@ -159,7 +159,8 @@ public class CommandManager implements AutoCloseable {
         // schedule a task to detect timeouts
         plugin.executeAsync(() -> {
             timeoutThread.set(Thread.currentThread());
-            int warningIntervalSeconds = 5;
+            int warningIntervalSeconds = 10;
+            int b$warningIntervalSecondsIterable = 10;
 
             try {
                 if (completed.get()) {
@@ -168,7 +169,7 @@ public class CommandManager implements AutoCloseable {
 
                 for (int i = 1; i <= 3; i++) {
                     try {
-                        Thread.sleep(warningIntervalSeconds * 1000);
+                        Thread.sleep(b$warningIntervalSecondsIterable * 1000);
                     } catch (InterruptedException e) {
                         // ignore
                     }
@@ -177,10 +178,11 @@ public class CommandManager implements AutoCloseable {
                         return;
                     }
 
+                    final int b$seconds = (warningIntervalSeconds + ((i - 1) * b$warningIntervalSecondsIterable));
                     Thread executor = executorThread.get();
                     if (executor == null) {
                         plugin.log(Level.WARNING, "A command execution has not completed after " +
-                                (i * warningIntervalSeconds) + " seconds but there is no executor present. Perhaps the executor shutdown?");
+                                b$seconds + " seconds but there is no executor present. Perhaps the executor shutdown?");
                         plugin.log(Level.WARNING, "If the command subsequently completes without any errors, this warning should be ignored. :)");
 
                     } else {
@@ -189,7 +191,7 @@ public class CommandManager implements AutoCloseable {
                                 .collect(Collectors.joining("\n"));
 
                         plugin.log(Level.WARNING, "A command execution has not completed after " +
-                                (i * warningIntervalSeconds) + " seconds, it *might* be stuck. Trace: \n" + stackTrace);
+                                b$seconds + " seconds, it *might* be stuck. Trace: \n" + stackTrace);
                         plugin.log(Level.WARNING, "If the command subsequently completes without any errors, this warning should be ignored. :)");
                     }
                 }
@@ -298,7 +300,7 @@ public class CommandManager implements AutoCloseable {
                     String subCommandUsage = usage + " " + subCommand;
 
                     sender.reply(text()
-                            .append(text(">", GOLD, BOLD))
+                            .append(text(">", me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor(), BOLD))
                             .append(space())
                             .append(text().content(subCommandUsage).color(GRAY).clickEvent(ClickEvent.suggestCommand(subCommandUsage)).build())
                             .build()
@@ -313,7 +315,7 @@ public class CommandManager implements AutoCloseable {
                 });
             } else {
                 sender.reply(text()
-                        .append(text(">", GOLD, BOLD))
+                        .append(text(">", me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor(), BOLD))
                         .append(space())
                         .append(text().content(usage).color(GRAY).clickEvent(ClickEvent.suggestCommand(usage)).build())
                         .build()

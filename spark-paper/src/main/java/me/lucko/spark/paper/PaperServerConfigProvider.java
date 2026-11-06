@@ -146,6 +146,11 @@ public class PaperServerConfigProvider extends ServerConfigProvider {
                 .add("feature-seeds")
                 .add("seed-*")
                 .addAll(getSystemPropertyList("spark.serverconfigs.hiddenpaths"));
+        final me.biquaternions.spark.common.SparkStyle b$style = me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle();
+        for (final Map.Entry<String, ConfigParser> b$config : b$style.getPlatformConfigs().entrySet()) {
+            files.put(b$config.getKey(), b$config.getValue());
+        }
+        hiddenPaths.addAll(b$style.getPlatformHiddenPaths());
 
         FILES = files.build();
         HIDDEN_PATHS = hiddenPaths.build();

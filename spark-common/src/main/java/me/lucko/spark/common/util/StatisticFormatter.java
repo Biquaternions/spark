@@ -46,11 +46,11 @@ public enum StatisticFormatter {
         TextColor color;
 
         if (tps > (gameTargetTps * 0.9d)) {
-            color = GREEN;
+            color = me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthGoodColor();
         } else if (tps > (gameTargetTps * 0.8d)) {
-            color = YELLOW;
+            color = me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthMediumColor();
         } else {
-            color = RED;
+            color = me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthBadColor();
         }
 
         return text((tps > gameTargetTps ? "*" : "") + Math.min(Math.round(tps * 100.0) / 100.0, gameTargetTps), color);
@@ -71,11 +71,11 @@ public enum StatisticFormatter {
     public static TextComponent formatTickDuration(double duration, int gameMaxIdealDuration) {
         TextColor color;
         if (duration >= gameMaxIdealDuration) {
-            color = RED;
+            color = me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthBadColor();
         } else if (duration >= (gameMaxIdealDuration * 0.8d)) {
-            color = YELLOW;
+            color = me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthMediumColor();
         } else {
-            color = GREEN;
+            color = me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthGoodColor();
         }
 
         return text(String.format(Locale.ENGLISH, "%.1f", duration), color);
@@ -84,11 +84,11 @@ public enum StatisticFormatter {
     public static TextComponent formatCpuUsage(double usage) {
         TextColor color;
         if (usage > 0.9) {
-            color = RED;
+            color = me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthBadColor();
         } else if (usage > 0.65) {
-            color = YELLOW;
+            color = me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthMediumColor();
         } else {
-            color = GREEN;
+            color = me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthGoodColor();
         }
 
         return text(FormatUtil.percent(usage, 1d), color);
@@ -109,11 +109,11 @@ public enum StatisticFormatter {
     public static TextComponent formatPingRtt(double ping) {
         TextColor color;
         if (ping >= 200) {
-            color = RED;
+            color = me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthBadColor();
         } else if (ping >= 100) {
-            color = YELLOW;
+            color = me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthMediumColor();
         } else {
-            color = GREEN;
+            color = me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthGoodColor();
         }
 
         return text((int) Math.ceil(ping), color);
@@ -127,10 +127,10 @@ public enum StatisticFormatter {
         int usedChars = (int) ((used * length) / max);
         int committedChars = (int) ((committed * length) / max);
 
-        TextComponent.Builder line = text().content(Strings.repeat(BAR_TRUE_CHARACTER, usedChars)).color(YELLOW);
+        TextComponent.Builder line = text().content(Strings.repeat(BAR_TRUE_CHARACTER, usedChars)).color(me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthMediumColor());
         if (committedChars > usedChars) {
             line.append(text(Strings.repeat(BAR_FALSE_CHARACTER, (committedChars - usedChars) - 1), GRAY));
-            line.append(Component.text(BAR_FALSE_CHARACTER, RED));
+            line.append(Component.text(BAR_FALSE_CHARACTER, me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthBadColor()));
         }
         if (length > committedChars) {
             line.append(text(Strings.repeat(BAR_FALSE_CHARACTER, (length - committedChars)), GRAY));
@@ -156,15 +156,15 @@ public enum StatisticFormatter {
         int collectionUsedChars = (int) ((collectionUsed * length) / max);
         int committedChars = (int) ((committed * length) / max);
 
-        TextComponent.Builder line = text().content(Strings.repeat(BAR_TRUE_CHARACTER, collectionUsedChars)).color(YELLOW);
+        TextComponent.Builder line = text().content(Strings.repeat(BAR_TRUE_CHARACTER, collectionUsedChars)).color(me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthMediumColor());
 
         if (usedChars > collectionUsedChars) {
-            line.append(Component.text(BAR_TRUE_CHARACTER, RED));
-            line.append(text(Strings.repeat(BAR_TRUE_CHARACTER, (usedChars - collectionUsedChars) - 1), YELLOW));
+            line.append(Component.text(BAR_TRUE_CHARACTER, me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthBadColor()));
+            line.append(text(Strings.repeat(BAR_TRUE_CHARACTER, (usedChars - collectionUsedChars) - 1), me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthMediumColor()));
         }
         if (committedChars > usedChars) {
             line.append(text(Strings.repeat(BAR_FALSE_CHARACTER, (committedChars - usedChars) - 1), GRAY));
-            line.append(Component.text(BAR_FALSE_CHARACTER, YELLOW));
+            line.append(Component.text(BAR_FALSE_CHARACTER, me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthMediumColor()));
         }
         if (length > committedChars) {
             line.append(text(Strings.repeat(BAR_FALSE_CHARACTER, (length - committedChars)), GRAY));
@@ -182,7 +182,7 @@ public enum StatisticFormatter {
         int freeChars = length - usedChars;
         return text()
                 .append(text("[", DARK_GRAY))
-                .append(text(Strings.repeat(BAR_TRUE_CHARACTER, usedChars), YELLOW))
+                .append(text(Strings.repeat(BAR_TRUE_CHARACTER, usedChars), me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthMediumColor()))
                 .append(text(Strings.repeat(BAR_FALSE_CHARACTER, freeChars), GRAY))
                 .append(text("]", DARK_GRAY))
                 .build();

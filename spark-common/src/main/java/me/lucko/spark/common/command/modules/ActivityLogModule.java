@@ -115,7 +115,7 @@ public class ActivityLogModule implements CommandModule, RowRenderer<Activity> {
                     int page = Math.max(1, arguments.intFlag("page"));
 
                     Pagination<Activity> activityPagination = this.pagination.build(
-                            text("Recent spark activity", GOLD),
+                            text("Recent spark activity", me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor()),
                             this,
                             value -> "/" + platform.getPlugin().getCommandName() + " activity --page " + value
                     );

@@ -135,7 +135,7 @@ public abstract class TickMonitor implements TickHook.Callback, GarbageCollectio
             // move onto the next state
             if (this.averageTickTimeCalc.getCount() >= 120) {
                 this.platform.getPlugin().executeAsync(() -> {
-                    sendMessage(text("Analysis is now complete.", GOLD));
+                    sendMessage(text("Analysis is now complete.", me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor()));
                     sendMessage(text()
                             .color(GRAY)
                             .append(text(">", WHITE))
@@ -181,7 +181,7 @@ public abstract class TickMonitor implements TickHook.Callback, GarbageCollectio
                             .append(text("Tick "))
                             .append(text("#" + getCurrentTick(), DARK_GRAY))
                             .append(text(" lasted "))
-                            .append(text(DF.format(tickDuration), GOLD))
+                            .append(text(DF.format(tickDuration), me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor()))
                             .append(text(" ms. "))
                             .append(text("("))
                             .append(text(DF.format(percentageChange) + "%", GOLD))
@@ -209,7 +209,7 @@ public abstract class TickMonitor implements TickHook.Callback, GarbageCollectio
                     .append(text(" included "))
                     .append(text("GC", RED))
                     .append(text(" lasting "))
-                    .append(text(DF.format(data.getGcInfo().getDuration()), GOLD))
+                    .append(text(DF.format(data.getGcInfo().getDuration()), me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor()))
                     .append(text(" ms. (type = " + GarbageCollectionMonitor.getGcType(data) + ")"))
                     .build()
             );

@@ -100,7 +100,7 @@ public class HeapAnalysisModule implements CommandModule {
                 String key = platform.getBytebinClient().postContent(output, MediaTypes.SPARK_HEAP_MEDIA_TYPE).key();
                 String url = platform.getViewerUrl() + key;
 
-                resp.broadcastPrefixed(text("Heap dump summmary output:", GOLD));
+                resp.broadcastPrefixed(text("Heap dump summary output:", me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor()));
                 resp.broadcast(text()
                         .content(url)
                         .color(GRAY)
@@ -123,7 +123,7 @@ public class HeapAnalysisModule implements CommandModule {
 
                 resp.broadcastPrefixed(text()
                         .content("Heap dump summary written to: ")
-                        .color(GOLD)
+                        .color(me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor())
                         .append(text(file.toString(), GRAY))
                         .build()
                 );
@@ -160,7 +160,7 @@ public class HeapAnalysisModule implements CommandModule {
 
         resp.broadcastPrefixed(text()
                 .content("Heap dump written to: ")
-                .color(GOLD)
+                .color(me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor())
                 .append(text(file.toString(), GRAY))
                 .build()
         );
@@ -202,11 +202,11 @@ public class HeapAnalysisModule implements CommandModule {
                     resp.broadcastPrefixed(text()
                             .color(GRAY)
                             .append(text("Compressed "))
-                            .append(text(FormatUtil.formatBytes(progress), GOLD))
+                            .append(text(FormatUtil.formatBytes(progress), me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor()))
                             .append(text(" / "))
-                            .append(text(FormatUtil.formatBytes(size), GOLD))
+                            .append(text(FormatUtil.formatBytes(size), me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor()))
                             .append(text(" so far... ("))
-                            .append(text(FormatUtil.percent(progress, size), GREEN))
+                            .append(text(FormatUtil.percent(progress, size), me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getDataColor()))
                             .append(text(")"))
                             .build()
                     );
@@ -220,18 +220,18 @@ public class HeapAnalysisModule implements CommandModule {
         resp.broadcastPrefixed(text()
                 .color(GRAY)
                 .append(text("Compression complete: "))
-                .append(text(FormatUtil.formatBytes(size), GOLD))
+                .append(text(FormatUtil.formatBytes(size), me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor()))
                 .append(text(" --> "))
-                .append(text(FormatUtil.formatBytes(compressedSize), GOLD))
+                .append(text(FormatUtil.formatBytes(compressedSize), me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor()))
                 .append(text(" ("))
-                .append(text(FormatUtil.percent(compressedSize, size), GREEN))
+                .append(text(FormatUtil.percent(compressedSize, size), me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getDataColor()))
                 .append(text(")"))
                 .build()
         );
 
         resp.broadcastPrefixed(text()
                 .content("Compressed heap dump written to: ")
-                .color(GOLD)
+                .color(me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor())
                 .append(text(compressedFile.toString(), GRAY))
                 .build()
         );

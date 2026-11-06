@@ -44,7 +44,7 @@ public class CommandResponseHandler {
     private static final TextComponent PREFIX = text()
             .color(GRAY)
             .append(text("[", DARK_GRAY))
-            .append(text("⚡", YELLOW, BOLD))
+            .append(text(me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getPrefix(), me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getPrefixColor(), BOLD))
             .append(text("]", DARK_GRAY))
             .append(text(" "))
             .build();

@@ -283,7 +283,7 @@ public class HealthModule implements CommandModule {
             String key = platform.getBytebinClient().postContent(data.build(), MediaTypes.SPARK_HEALTH_MEDIA_TYPE).key();
             String url = platform.getViewerUrl() + key;
 
-            resp.broadcastPrefixed(text("Health Report:", GOLD));
+            resp.broadcastPrefixed(text("Health Report:", me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor()));
             resp.broadcast(text()
                     .content(url)
                     .color(GRAY)
@@ -301,7 +301,7 @@ public class HealthModule implements CommandModule {
         report.add(text()
                 .append(text(">", DARK_GRAY, BOLD))
                 .append(space())
-                .append(text("TPS from last 5s, 10s, 1m, 5m, 15m:", GOLD))
+                .append(text("TPS from last 5s, 10s, 1m, 5m, 15m:", me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor()))
                 .build()
         );
         report.add(text()
@@ -319,7 +319,7 @@ public class HealthModule implements CommandModule {
             report.add(text()
                     .append(text(">", DARK_GRAY, BOLD))
                     .append(space())
-                    .append(text("Tick durations (min/med/95%ile/max ms) from last 10s, 1m:", GOLD))
+                    .append(text("Tick durations (min/med/95%ile/max ms) from last 10s, 1m:", me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor()))
                     .build()
             );
             report.add(text()
@@ -336,7 +336,7 @@ public class HealthModule implements CommandModule {
         report.add(text()
                 .append(text(">", DARK_GRAY, BOLD))
                 .append(space())
-                .append(text("CPU usage from last 10s, 1m, 15m:", GOLD))
+                .append(text("CPU usage from last 10s, 1m, 15m:", me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor()))
                 .build()
         );
         report.add(text()
@@ -363,7 +363,7 @@ public class HealthModule implements CommandModule {
         report.add(text()
                 .append(text(">", DARK_GRAY, BOLD))
                 .append(space())
-                .append(text("Memory usage:", GOLD))
+                .append(text("Memory usage:", me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor()))
                 .build()
         );
         report.add(text()
@@ -375,7 +375,7 @@ public class HealthModule implements CommandModule {
                 .append(text(FormatUtil.formatBytes(heapUsage.getMax()), WHITE))
                 .append(text("   "))
                 .append(text("(", GRAY))
-                .append(text(FormatUtil.percent(heapUsage.getUsed(), heapUsage.getMax()), GREEN))
+                .append(text(FormatUtil.percent(heapUsage.getUsed(), heapUsage.getMax()), me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthGoodColor()))
                 .append(text(")", GRAY))
                 .build()
         );
@@ -388,7 +388,7 @@ public class HealthModule implements CommandModule {
         report.add(text()
                 .append(text(">", DARK_GRAY, BOLD))
                 .append(space())
-                .append(text("Non-heap memory usage:", GOLD))
+                .append(text("Non-heap memory usage:", me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor()))
                 .build()
         );
         report.add(text()
@@ -414,7 +414,7 @@ public class HealthModule implements CommandModule {
             report.add(text()
                     .append(text(">", DARK_GRAY, BOLD))
                     .append(space())
-                    .append(text(memoryPool.getName() + " pool usage:", GOLD))
+                    .append(text(memoryPool.getName() + " pool usage:", me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor()))
                     .build()
             );
             report.add(text()
@@ -426,7 +426,7 @@ public class HealthModule implements CommandModule {
                     .append(text(FormatUtil.formatBytes(usage.getMax()), WHITE))
                     .append(text("   "))
                     .append(text("(", GRAY))
-                    .append(text(FormatUtil.percent(usage.getUsed(), usage.getMax()), GREEN))
+                    .append(text(FormatUtil.percent(usage.getUsed(), usage.getMax()), me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthGoodColor()))
                     .append(text(")", GRAY))
                     .build()
             );
@@ -435,7 +435,7 @@ public class HealthModule implements CommandModule {
             if (collectionUsage != null) {
                 report.add(text()
                         .content("     ")
-                        .append(text("-", RED))
+                        .append(text("-", me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthBadColor()))
                         .append(space())
                         .append(text("Usage at last GC:", GRAY))
                         .append(space())
@@ -462,7 +462,7 @@ public class HealthModule implements CommandModule {
                     averagesReport.add(text()
                             .color(GRAY)
                             .content("    ")
-                            .append(FormatUtil.formatBytes(bytesPerSec, GREEN, "/s"))
+                            .append(FormatUtil.formatBytes(bytesPerSec, me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthGoodColor(), "/s"))
                             .append(text(" / "))
                             .append(text(String.format(Locale.ENGLISH, "%,d", packetsPerSec), WHITE))
                             .append(text(" pps "))
@@ -481,7 +481,7 @@ public class HealthModule implements CommandModule {
             report.add(text()
                     .append(text(">", DARK_GRAY, BOLD))
                     .append(space())
-                    .append(text("Network usage: (system, last 15m)", GOLD))
+                    .append(text("Network usage: (system, last 15m)", me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor()))
                     .build()
             );
             report.addAll(averagesReport);
@@ -500,7 +500,7 @@ public class HealthModule implements CommandModule {
         report.add(text()
                 .append(text(">", DARK_GRAY, BOLD))
                 .append(space())
-                .append(text("Disk usage:", GOLD))
+                .append(text("Disk usage:", me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getTitleColor()))
                 .build()
         );
         report.add(text()
@@ -512,7 +512,7 @@ public class HealthModule implements CommandModule {
                 .append(text(FormatUtil.formatBytes(total), WHITE))
                 .append(text("   "))
                 .append(text("(", GRAY))
-                .append(text(FormatUtil.percent(used, total), GREEN))
+                .append(text(FormatUtil.percent(used, total), me.biquaternions.spark.common.SparkStyleProvider.getInstance().getStyle().getHealthGoodColor()))
                 .append(text(")", GRAY))
                 .build()
         );
